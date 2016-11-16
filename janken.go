@@ -24,7 +24,7 @@ type Result int
 
 const (
 	_ Result = iota
-	even
+	draw
 	win
 	lose
 )
@@ -41,7 +41,7 @@ func doJanken(me, com Hand) (Result, error) {
 	case rock:
 		switch com {
 		case rock:
-			return even, nil
+			return draw, nil
 		case paper:
 			return lose, nil
 		case scissors:
@@ -52,7 +52,7 @@ func doJanken(me, com Hand) (Result, error) {
 		case rock:
 			return win, nil
 		case paper:
-			return even, nil
+			return draw, nil
 		case scissors:
 			return lose, nil
 		}
@@ -63,7 +63,7 @@ func doJanken(me, com Hand) (Result, error) {
 		case paper:
 			return win, nil
 		case scissors:
-			return even, nil
+			return draw, nil
 		}
 	}
 	return 0, errors.New("something happen")

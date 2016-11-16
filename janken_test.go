@@ -9,14 +9,14 @@ func Test_doJanken(t *testing.T) {
 		expectResult    Result
 	}{
 		// valid input
-		{rock, rock, false, even},
+		{rock, rock, false, draw},
 		{rock, paper, false, lose},
 		{rock, scissors, false, win},
 		{scissors, rock, false, lose},
 		{scissors, paper, false, win},
-		{scissors, scissors, false, even},
+		{scissors, scissors, false, draw},
 		{paper, rock, false, win},
-		{paper, paper, false, even},
+		{paper, paper, false, draw},
 		{paper, scissors, false, lose},
 
 		// invalid input

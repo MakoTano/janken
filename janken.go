@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// 最終的な出力結果が数字だと寂しいので、独自型を定義して文字変換するようにしています
 //go:generate stringer -type=Hand
 //go:generate stringer -type=Result
 
@@ -20,7 +21,8 @@ const (
 type Result int
 
 const (
-	even Result = iota
+	_ Result = iota
+	even
 	win
 	lose
 )
@@ -66,7 +68,8 @@ func doJanken(me, com Hand) (Result, error) {
 }
 
 func main() {
-	var me, com Hand = rock, paper
+	var me, com Hand = rock, paper // 更に拡張するならばコマンドラインから受け取りたいところです。
+
 	result, err := doJanken(me, com)
 	if err != nil {
 		fmt.Printf("error occurs %s\n", err.Error())

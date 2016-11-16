@@ -8,7 +8,7 @@ func Test_doJanken(t *testing.T) {
 		expectWantError bool
 		expectResult    Result
 	}{
-		// right input
+		// valid input
 		{rock, rock, false, even},
 		{rock, paper, false, lose},
 		{rock, scissors, false, win},
@@ -19,7 +19,7 @@ func Test_doJanken(t *testing.T) {
 		{paper, paper, false, even},
 		{paper, scissors, false, lose},
 
-		// error input
+		// invalid input
 		{4, rock, true, 0},
 		{rock, 4, true, 0},
 	}
@@ -29,6 +29,8 @@ func Test_doJanken(t *testing.T) {
 			t.Errorf("should have error %+v", tt)
 			continue
 		}
+
+		// エラーのときはresultの検査は必要ないのでcontinueします
 		if err != nil {
 			continue
 		}

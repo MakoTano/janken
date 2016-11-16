@@ -1,5 +1,7 @@
 # janken
 
+a training program for golang.
+
 ## Usage
 
 ```bash

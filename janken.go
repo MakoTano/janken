@@ -9,6 +9,7 @@ import (
 //go:generate stringer -type=Hand
 //go:generate stringer -type=Result
 
+// Hand is a sign on janken
 type Hand int
 
 const (
@@ -18,6 +19,7 @@ const (
 	scissors
 )
 
+// Result is result after doing janken
 type Result int
 
 const (
@@ -29,10 +31,10 @@ const (
 
 func doJanken(me, com Hand) (Result, error) {
 	if me > 3 {
-		return 0, errors.New(fmt.Sprintf("me Hand %d is not permmited.", me))
+		return 0, fmt.Errorf("me Hand %d is not permmited", me)
 	}
 	if com > 3 {
-		return 0, errors.New(fmt.Sprintf("com Hand %d is not permmited.", com))
+		return 0, fmt.Errorf("com Hand %d is not permmited", com)
 	}
 
 	switch me {
@@ -64,7 +66,7 @@ func doJanken(me, com Hand) (Result, error) {
 			return even, nil
 		}
 	}
-	return 0, errors.New("something happen !")
+	return 0, errors.New("something happen")
 }
 
 func main() {

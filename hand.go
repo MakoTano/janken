@@ -15,7 +15,7 @@ const (
 	scissors
 )
 
-func (h Hand) isRight() error {
+func (h Hand) validate() error {
 	switch h {
 	case rock, paper, scissors:
 		return nil

@@ -7,10 +7,10 @@ import (
 )
 
 func doJanken(myHand, comHand Hand) (Result, error) {
-	if err := myHand.isRight(); err != nil {
+	if err := myHand.validate(); err != nil {
 		return invalid, errors.Wrap(err, "myHand")
 	}
-	if err := comHand.isRight(); err != nil {
+	if err := comHand.validate(); err != nil {
 		return invalid, errors.Wrap(err, "comHand")
 	}
 

@@ -1,8 +1,9 @@
 package main
 
 import (
-	"errors"
 	"fmt"
+
+	"github.com/pkg/errors"
 )
 
 // 最終的な出力結果が数字だと寂しいので、独自型を定義して文字変換するようにしています
@@ -19,54 +20,48 @@ const (
 	scissors
 )
 
+func (h Hand) isRight() error {
+	switch h {
+	case rock, paper, scissors:
+		return nil
+	}
+	return fmt.Errorf("%d is not permmited", h)
+}
+
+func (h Hand) janken(com Hand) Result {
+	if h == com {
+		return draw
+	}
+
+	switch {
+	case h == rock && com == scissors,
+		h == scissors && com == paper,
+		h == paper && com == rock:
+		return win
+	}
+
+	return lose
+}
+
 // Result is result after doing janken
 type Result int
 
 const (
-	_ Result = iota
+	invalid Result = iota
 	draw
 	win
 	lose
 )
 
-func doJanken(me, com Hand) (Result, error) {
-	if me > 3 {
-		return 0, fmt.Errorf("me Hand %d is not permmited", me)
+func doJanken(myHand, comHand Hand) (Result, error) {
+	if err := myHand.isRight(); err != nil {
+		return invalid, errors.Wrap(err, "myHand")
 	}
-	if com > 3 {
-		return 0, fmt.Errorf("com Hand %d is not permmited", com)
+	if err := comHand.isRight(); err != nil {
+		return invalid, errors.Wrap(err, "comHand")
 	}
 
-	switch me {
-	case rock:
-		switch com {
-		case rock:
-			return draw, nil
-		case paper:
-			return lose, nil
-		case scissors:
-			return win, nil
-		}
-	case paper:
-		switch com {
-		case rock:
-			return win, nil
-		case paper:
-			return draw, nil
-		case scissors:
-			return lose, nil
-		}
-	case scissors:
-		switch com {
-		case rock:
-			return lose, nil
-		case paper:
-			return win, nil
-		case scissors:
-			return draw, nil
-		}
-	}
-	return 0, errors.New("something happen")
+	return myHand.janken(comHand), nil
 }
 
 func main() {
@@ -74,7 +69,8 @@ func main() {
 
 	result, err := doJanken(me, com)
 	if err != nil {
-		fmt.Printf("error occurs %s\n", err.Error())
+		fmt.Println(errors.Wrap(err, "error occurs").Error())
+		return
 	}
 
 	fmt.Printf("me: %v, com: %v = I %v\n", me, com, result)
